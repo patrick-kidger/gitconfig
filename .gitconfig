@@ -1,0 +1,55 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+	name = Patrick Kidger
+	email = 33688385+patrick-kidger@users.noreply.github.com
+[alias]
+	co = checkout
+	conf = config --global --edit  # Opens this config file!
+	stat = status -s  # Shorter status
+	wdiff = diff --word-diff  # Show differences breaking on spaces rather than newlines
+	ndiff = diff --name-only  # Show only file differences
+	cdiff = diff --cached  # Diffs what is currently staged
+	ncdiff = diff --cached --name-only
+	cndiff = diff --cached --name-only
+	adu = add -u *  # Stage all currently tracked files
+	fl = log --oneline -u  # Show the changes made to a specific file. Usage: 'git fl somefile.txt'
+	filelog = log -u
+	gr = grep -iIn  # grep by line. Case insenstive, ignores binary files, prints line number.
+	fgrep = "!git ls-files | grep -i"  # grep by file name. Case insensitive
+	listaliases = "!git config -l | grep alias | cut -c 7-"  # Lists all aliases in this file
+	amm = commit --amend
+	caa = commit -a --amend -C HEAD  # Amends the previous commit with all uncommitted and unstaged changes
+
+	# Diff against where our current branch and the specified branch diverge.
+	fork-diff = "!f() { git diff $(git merge-base --fork-point $1) \"${@:2:99}\"; }; f"
+
+	# Show all the actual changes to the file, and ignore moving lines around. Since we're using uniq the lines end up sorted. And git diff can't show line numbers, so this isn't necessarily that useful a command.
+	newdiff = "!f() { git diff \"$@\" | grep \"^[+-]\" | sort --key=1.2 | uniq -u -s1; }; f"
+
+	# Commit with a standard commit message.
+	com = "!f() { branchname=$(git branch | grep \\* | cut -d ' ' -f 2); git commit -m 'In progress commit on branch '\"$branchname.\" \"$@\"; }; f"
+
+	# A million different log commands.
+	# l for log, that has to be at the start. Can add an l for extra details.
+	# Can add a t for the time of commits, d for the date of commits, dt for the date and time of commits, r for the time of commits in a relative fashion.
+	# The order of the l and the [t/d/dt//l] do not matter.
+	# Also a couple special ones at the end.
+	l = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s" --decorate
+	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s" --decorate --numstat
+	lld = log --pretty=format:"%C(yellow)%h\\ %Cblue%ad%Cred%d\\ %Creset%s" --decorate --numstat --date=format:'%d/%m/%y'
+	ldl = log --pretty=format:"%C(yellow)%h\\ %Cblue%ad%Cred%d\\ %Creset%s" --decorate --numstat --date=format:'%d/%m/%y'
+	llt = log --pretty=format:"%C(yellow)%h\\ %Cblue%ad%Cred%d\\ %Creset%s" --decorate --numstat --date=format:'%H:%M'
+	ltl = log --pretty=format:"%C(yellow)%h\\ %Cblue%ad%Cred%d\\ %Creset%s" --decorate --numstat --date=format:'%H:%M'
+	lldt = log --pretty=format:"%C(yellow)%h\\ %Cblue%ad%Cred%d\\ %Creset%s" --decorate --numstat --date=format:'%d/%m/%y %H:%M'
+	ldtl = log --pretty=format:"%C(yellow)%h\\ %Cblue%ad%Cred%d\\ %Creset%s" --decorate --numstat --date=format:'%d/%m/%y %H:%M'
+	llr = log --pretty=format:"%C(yellow)%h\\ %Cblue%ad%Cred%d\\ %Creset%s" --decorate --numstat --date=relative
+	lrl = log --pretty=format:"%C(yellow)%h\\ %Cblue%ad%Cred%d\\ %Creset%s" --decorate --numstat --date=relative
+	ld = log --pretty=format:"%C(yellow)%h\\ %Cblue%ad%Cred%d\\ %Creset%s" --decorate --date=format:'%d/%m/%y'
+	ldt = log --pretty=format:"%C(yellow)%h\\ %Cblue%ad%Cred%d\\ %Creset%s%" --decorate --date=format:'%d/%m/%y %H:%M'
+	lt = log --pretty=format:"%C(yellow)%h\\ %Cblue%ad%Cred%d\\ %Creset%s%" --decorate --date=format:'%H:%M'
+	lr = log --pretty=format:"%C(yellow)%h\\ %Cblue%ad%Cred%d\\ %Creset%s" --decorate --date=relative
+	le = log --oneline --decorate
+	logtree = log --graph --online --decorate --all
+[core]
+	editor = vim
